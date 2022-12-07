@@ -33,7 +33,7 @@ public class CompanyManager implements CompanyService{
 	@Override
 	public Result Update(Company company) {
 		companyDao.save(company);
-		return new SuccessResult("Company Deleted");
+		return new SuccessResult("Company Updated");
 	}
 	@Override
 	public DataResult<List<Company>> getAll() {
