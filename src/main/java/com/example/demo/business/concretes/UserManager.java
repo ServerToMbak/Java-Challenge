@@ -1,12 +1,14 @@
 package com.example.demo.business.concretes;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.business.abstracts.UserService;
 import com.example.demo.core.utilities.DataResult;
+import com.example.demo.core.utilities.ErrorResult;
 import com.example.demo.core.utilities.Result;
 import com.example.demo.core.utilities.SuccessDataResult;
 import com.example.demo.core.utilities.SuccessResult;
@@ -37,9 +39,20 @@ public class UserManager implements UserService{
 	}
 	@Override
 	public Result Update(User user) {
-		userDao.save(user);
-		return new SuccessResult("User Deleted");
-	}
+		Optional<User> findUser= userDao.findById(user.getId());
+		
+		if(findUser.isPresent()) {
+			User FoundCompany=findUser.get();
+			FoundCompany.setName(user.getName());
+			FoundCompany.setCompanyId(user.getCompanyId());
+			FoundCompany.setPassword(user.getPassword());
+			userDao.save(user);
+			return new SuccessResult("");
+		}
+		return new ErrorResult("");
+		
+	}	
+	
 	@Override
 	public DataResult<List<User>> getAll() {
 		

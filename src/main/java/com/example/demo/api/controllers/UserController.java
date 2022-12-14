@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.business.abstracts.UserService;
 import com.example.demo.core.utilities.DataResult;
+import com.example.demo.core.utilities.Result;
 import com.example.demo.entities.concretes.User;
 
 @RestController
@@ -41,15 +42,15 @@ public class UserController {
 		}
 
 		@PostMapping("/add")
-		public ResponseEntity<?> add(@RequestBody User user){
+		public ResponseEntity<Result> add(@RequestBody User user){
 			return ResponseEntity.ok(this.userService.Add(user));
 		}
 		@DeleteMapping("/delete")
-		public ResponseEntity<?> delete(@RequestBody User user){
+		public ResponseEntity<Result> delete(@RequestBody User user){
 			return ResponseEntity.ok(this.userService.Delete(user));
 		}
 		@PutMapping("/update")
-		public ResponseEntity<?> update(@RequestBody User user){
+		public ResponseEntity<Result> update(@RequestBody User user){
 			return ResponseEntity.ok(this.userService.Update(user));
 		}
 		

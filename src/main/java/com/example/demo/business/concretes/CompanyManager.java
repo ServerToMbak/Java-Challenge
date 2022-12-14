@@ -1,12 +1,14 @@
 package com.example.demo.business.concretes;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.business.abstracts.CompanyService;
 import com.example.demo.core.utilities.DataResult;
+import com.example.demo.core.utilities.ErrorResult;
 import com.example.demo.core.utilities.Result;
 import com.example.demo.core.utilities.SuccessDataResult;
 import com.example.demo.core.utilities.SuccessResult;
@@ -30,11 +32,7 @@ public class CompanyManager implements CompanyService{
 		companyDao.delete(company);
 	return new SuccessResult("Company Deleted");
 	}
-	@Override
-	public Result Update(Company company) {
-		companyDao.save(company);
-		return new SuccessResult("Company Updated");
-	}
+
 	@Override
 	public DataResult<List<Company>> getAll() {
 		
@@ -44,6 +42,19 @@ public class CompanyManager implements CompanyService{
 	public DataResult<Company> get(int companyId) {
 	
 	return new SuccessDataResult<Company>(companyDao.findById(companyId).orElse(null));
+	}
+	@Override
+	public Result Update(Company company) {
+		Optional<Company> findCompany= companyDao.findById(company.getId());
+		
+		if(findCompany.isPresent()) {
+			Company FoundCompany=findCompany.get();
+			FoundCompany.setCompanyName(company.getCompanyName());
+			companyDao.save(company);
+			return new SuccessResult("");
+		}
+		return new ErrorResult("");
+		
 	}	
 	
 }
